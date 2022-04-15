@@ -27,7 +27,10 @@ pipeline {
         stage('Build environment') {
             steps {
                 echo "Building virtualenv"
-                sh  ''' conda create --yes -n ${BUILD_TAG} python
+                sh  ''' export PATH=/root/anaconda2/bin:$PATH
+                        eval "$(conda shell.bash hook)"
+                        conda activate ${BUILD_TAG}
+                        conda create --yes -n ${BUILD_TAG} python
                         source activate ${BUILD_TAG}
                         pip install -r requirements/dev.txt
                     '''
